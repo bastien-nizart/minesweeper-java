@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.11'
+}
+
+group 'me.nizart.bastien'
+version '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = '18'
+targetCompatibility = '18'
+
+application {
+    mainModule = 'me.nizart.bastien.demineur'
+    mainClass = 'me.nizart.bastien.demineur.DemineurApplication'
+}
+
+javafx {
+    version = '18'
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+
+dependencies {
+    implementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+}
