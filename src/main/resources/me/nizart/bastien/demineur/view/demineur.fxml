@@ -51,6 +51,11 @@
                   <Font size="20.0" />
                </font>
             </Button>
+            <Label fx:id="messageFin">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
          </children>
       </HBox>
    </bottom>
