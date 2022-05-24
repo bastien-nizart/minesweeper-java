@@ -36,13 +36,16 @@ public class DemineurController implements IController {
 	public void initGrille(Grille grille) {
 		for (int i=0; i < Grille.DIMENSION; i++) {
 			for (int j=0; j < Grille.DIMENSION; j++) {
+				// Création
 				cases[i][j] = new Label();
 				cases[i][j].setText("");
 
+				// Attribution de la valeur visible
 				if (grille.getCase(i, j).estVisible()) {
 					cases[i][j].setText(grille.getCase(i, j).getValeur());
 				}
 
+				// Propriété graphique
 				cases[i][j].setAlignment(Pos.CENTER);
 				cases[i][j].setFont(Font.font(18));
 				cases[i][j].setPrefWidth(100);
@@ -85,7 +88,6 @@ public class DemineurController implements IController {
 								System.out.println(grille.getCase(finalI, finalJ).possedeDrapeau());
 							}
 
-							//grille.getCase(finalI, finalJ).setVisible(true);
 							model.revelerCases(finalI, finalJ);
 						}
 
