@@ -1,5 +1,13 @@
 package me.nizart.bastien.demineur.model;
 
+/**
+ * Cette classe représente un objet de type Case.
+ * Une case de la grille peut être une case simple ou une mine.
+ * Elle peut posseder ou non un drapeau.
+ * Et peut être visible ou cachée.
+ * @author bastien
+ * @version 1.0
+ */
 public class Case {
 	/**
 	 * Case visible ou non.
