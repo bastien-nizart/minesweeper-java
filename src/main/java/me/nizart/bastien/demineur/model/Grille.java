@@ -116,63 +116,11 @@ public class Grille {
 
 	private int calculerValeurCase(int ligne, int colonne) {
 		int valeur = 0;
+		List<Case> voisines = getCasesVoisines(ligne, colonne);
 
-		// Rangée du dessus
-		if (ligne > 0) {
-			// i-1, j-1
-			if (colonne > 0) {
-				if (this.cases[ligne-1][colonne-1].estUneMine()) {
-					valeur++;
-				}
-			}
-
-			// i-1, j
-			if (this.cases[ligne-1][colonne].estUneMine()) {
+		for (Case voisine : voisines) {
+			if (voisine.estUneMine()) {
 				valeur++;
-			}
-
-			// i-1, j+1
-			if (colonne < DIMENSION-1) {
-				if (this.cases[ligne-1][colonne+1].estUneMine()) {
-					valeur++;
-				}
-			}
-		}
-
-		// Rangée actuelle
-		// i-1, j-1
-		if (colonne > 0) {
-			if (this.cases[ligne][colonne-1].estUneMine()) {
-				valeur++;
-			}
-		}
-
-		// i-1, j+1
-		if (colonne < DIMENSION-1) {
-			if (this.cases[ligne][colonne+1].estUneMine()) {
-				valeur++;
-			}
-		}
-
-		// Rangée du dessous
-		if (ligne < DIMENSION-1) {
-			// i+1, j-1
-			if (colonne > 0) {
-				if (this.cases[ligne+1][colonne-1].estUneMine()) {
-					valeur++;
-				}
-			}
-
-			// i+1, j
-			if (this.cases[ligne+1][colonne].estUneMine()) {
-				valeur++;
-			}
-
-			// i+1, j+1
-			if (colonne < DIMENSION-1) {
-				if (this.cases[ligne+1][colonne+1].estUneMine()) {
-					valeur++;
-				}
 			}
 		}
 
@@ -196,7 +144,7 @@ public class Grille {
 	}
 
 	public List<Case> getMines() {
-		List<Case> mines = new ArrayList<Case>();
+		List<Case> mines = new ArrayList<>();
 		for (int i = 0; i < DIMENSION; i++) {
 			for (int j = 0; j < DIMENSION; j++) {
 				if (this.cases[i][j].estUneMine()) {
@@ -209,7 +157,7 @@ public class Grille {
 	}
 
 	public List<Case> getDrapeaux() {
-		List<Case> drapeaux = new ArrayList<Case>();
+		List<Case> drapeaux = new ArrayList<>();
 		for (int i = 0; i < DIMENSION; i++) {
 			for (int j = 0; j < DIMENSION; j++) {
 				if (this.cases[i][j].possedeDrapeau()) {
