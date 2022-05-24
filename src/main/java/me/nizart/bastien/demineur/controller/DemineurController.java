@@ -1,11 +1,7 @@
 package me.nizart.bastien.demineur.controller;
 
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseButton;
@@ -14,10 +10,14 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import me.nizart.bastien.demineur.model.Demineur;
 import me.nizart.bastien.demineur.model.Grille;
+import me.nizart.bastien.demineur.model.IController;
 
-public class DemineurController {
+public class DemineurController implements IController {
 	@FXML
 	private GridPane grilleJeu;
+
+	@FXML
+	private Label messageFin;
 
 	@FXML
 	private Label nbDrapeauLabel;
@@ -60,8 +60,10 @@ public class DemineurController {
 							}
 
 							else {
-								grille.getCase(finalI, finalJ).setDrapeau(true);
-								model.ajouterDrapeau();
+								if (model.drapeauDispo()) {
+									grille.getCase(finalI, finalJ).setDrapeau(true);
+									model.ajouterDrapeau();
+								}
 							}
 						}
 
@@ -72,7 +74,7 @@ public class DemineurController {
 					// Découvrir case
 					if (e.getButton() == MouseButton.PRIMARY) {
 						if (grille.getCase(finalI, finalJ).estUneMine()) {
-							finirPartie(grille);
+							finirPartie(grille, false);
 						}
 
 						else {
@@ -80,9 +82,11 @@ public class DemineurController {
 								grille.getCase(finalI, finalJ).setDrapeau(false);
 								model.ajouterDrapeau();
 								nbDrapeauLabel.setText("Drapeau(x) : "+model.getNbDrapeaux());
+								System.out.println(grille.getCase(finalI, finalJ).possedeDrapeau());
 							}
 
-							grille.getCase(finalI, finalJ).setVisible(true);
+							//grille.getCase(finalI, finalJ).setVisible(true);
+							model.revelerCases(finalI, finalJ);
 						}
 
 						updateGrille(grille);
@@ -96,11 +100,14 @@ public class DemineurController {
 		nbDrapeauLabel.setText("Drapeau(x) : "+model.getNbDrapeaux());
 	}
 
+	@Override
 	public void commencerPartie() {
+		messageFin.setText("");
 		model.startPartie();
-		boutonRelancer.setDisable(true);
+		boutonRelancer.setDisable(false);
 	}
 
+	@Override
 	public void relancer() {
 		for (int i=0; i < Grille.DIMENSION; i++) {
 			for (int j = 0; j < Grille.DIMENSION; j++) {
@@ -111,10 +118,19 @@ public class DemineurController {
 		commencerPartie();
 	}
 
-	public void finirPartie(Grille grille) {
+	@Override
+	public void finirPartie(Grille grille, boolean gagne) {
 		boutonRelancer.setDisable(false);
 		model.endPartie();
 		updateGrille(grille);
+
+		if (gagne) {
+			messageFin.setText("Bravo !");
+		}
+
+		else {
+			messageFin.setText("Dommage ...");
+		}
 
 		for (int i=0; i < Grille.DIMENSION; i++) {
 			for (int j = 0; j < Grille.DIMENSION; j++) {
@@ -123,13 +139,21 @@ public class DemineurController {
 		}
 	}
 
+	@Override
 	public void updateGrille(Grille grille) {
 		for (int i=0; i < Grille.DIMENSION; i++) {
 			for (int j = 0; j < Grille.DIMENSION; j++) {
-				if (grille.getCase(i, j).estVisible() || grille.getCase(i, j).possedeDrapeau()) {
+				if ((grille.getCase(i, j).estVisible()) || (grille.getCase(i, j).possedeDrapeau())) {
 					cases[i][j].setText(grille.getCase(i, j).getValeur());
 				}
+				else {
+					cases[i][j].setText("");
+				}
 			}
+		}
+
+		if (model.partieGagnee()) {
+			finirPartie(grille, true);
 		}
 	}
 

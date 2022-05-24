@@ -4,22 +4,52 @@ public class Case {
 	/**
 	 * Case visible ou non.
 	 */
-	private boolean visible = false;
+	private boolean visible;
 
 	/**
 	 * Case contient une mine ou non.
 	 */
-	private boolean mine = false;
+	private boolean mine;
 
 	/**
 	 * Case contient un drapeau ou non.
 	 */
-	private boolean drapeau = false;
+	private boolean drapeau;
 
 	/**
 	 * Valeur contenue dans la case.
 	 */
-	private int valeur = -1;
+	private int valeur;
+
+	/**
+	 * Coordonnée colonne
+	 */
+	private final int colonne;
+
+	/**
+	 * Coordonnée ligne
+	 */
+	private final int ligne;
+
+	Case(int ligne, int colonne) {
+		this.ligne = ligne;
+		this.colonne = colonne;
+		this.visible = false;
+		this.mine = false;
+		this.drapeau = false;
+	}
+
+	public boolean equals(Case tuile) {
+		return (this.colonne == tuile.getColonne()) && (this.ligne == tuile.getLigne());
+	}
+
+	public int getColonne() {
+		return this.colonne;
+	}
+
+	public int getLigne() {
+		return this.ligne;
+	}
 
 	/**
 	 * Ajoute une valeur à la case.
@@ -31,10 +61,10 @@ public class Case {
 
 	/**
 	 * Transforme la case en mine et inversement.
-	 * @param statut mine ou case.
+	 * @param mine mine ou case.
 	 */
-	public void setMine(boolean statut) {
-		this.mine = statut;
+	public void setMine(boolean mine) {
+		this.mine = mine;
 	}
 
 	public void setDrapeau(boolean drapeau) {
