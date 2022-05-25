@@ -69,7 +69,7 @@ public class Demineur {
 	 * @return valeur de la case.
 	 */
 	public String getValeurCase(int ligne, int colonne) {
-		if ((grille.getCase(ligne, colonne).estVisible()) || (grille.getCase(ligne, colonne).possedeDrapeau())) {
+		if (grille.getCase(ligne, colonne).estVisible()) {
 			return grille.getCase(ligne, colonne).getValeur();
 		}
 
@@ -139,6 +139,7 @@ public class Demineur {
 	 */
 	public void setDrapeau(int ligne, int colonne, boolean drapeau) {
 		this.grille.getCase(ligne, colonne).setDrapeau(drapeau);
+		this.grille.getCase(ligne, colonne).setVisible(drapeau);
 	}
 
 	/**

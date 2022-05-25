@@ -87,14 +87,17 @@ public class DemineurController implements IController {
 				cases[i][j].addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
 					// Placer drapeau
 					if (e.getButton() == MouseButton.SECONDARY) {
-						if (!model.estVisible(finalI, finalJ) && model.possedeDrapeau(finalI, finalJ)) {
+						if (model.estVisible(finalI, finalJ) && model.possedeDrapeau(finalI, finalJ)) {
 							model.setDrapeau(finalI, finalJ, false);
 							model.retirerDrapeau();
+							System.out.println("retirer drapeau");
 						}
 
-						if (!model.estVisible(finalI, finalJ) && !model.possedeDrapeau(finalI, finalJ) && model.drapeauDispo()) {
+						else if (model.drapeauDispo()){
 							model.setDrapeau(finalI, finalJ, true);
 							model.ajouterDrapeau();
+							System.out.println("mettre drapeau");
+
 						}
 
 						nbDrapeauLabel.setText(model.getNbDrapeaux());
