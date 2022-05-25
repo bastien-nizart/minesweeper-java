@@ -3,6 +3,8 @@ package me.nizart.bastien.demineur.model;
 /**
  * Interface du controller.
  * Permettant de vérifier que toutes les méthodes essentielles sont présentes.
+ * @author bastien
+ * @version 1.0
  */
 public interface IController {
 	/**

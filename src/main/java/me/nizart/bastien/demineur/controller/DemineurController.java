@@ -12,21 +12,45 @@ import me.nizart.bastien.demineur.model.Demineur;
 import me.nizart.bastien.demineur.model.Grille;
 import me.nizart.bastien.demineur.model.IController;
 
+/**
+ * Controller principal de l'application.
+ * Il permet de gérer les interactions entre la vue et le model.
+ * @author bastien
+ * @version 1.0
+ */
 public class DemineurController implements IController {
+	/**
+	 * Grille contenant les labels du jeu.
+	 */
 	@FXML
 	private GridPane grilleJeu;
 
+	/**
+	 * Label contenant le message de fin de partie.
+	 */
 	@FXML
 	private Label messageFin;
 
+	/**
+	 * Label contenant le nombre de drapeaux restant à poser.
+	 */
 	@FXML
 	private Label nbDrapeauLabel;
 
+	/**
+	 * Bouton permettant de relancer une partie.
+	 */
 	@FXML
 	private Button boutonRelancer;
 
+	/**
+	 * Listes des cases du jeu.
+	 */
 	private Label[][] cases = new Label[Grille.DIMENSION][Grille.DIMENSION];
 
+	/**
+	 * Facade du model.
+	 */
 	private Demineur model;
 
 	/**
