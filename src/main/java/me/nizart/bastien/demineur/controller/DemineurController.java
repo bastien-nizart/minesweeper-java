@@ -29,11 +29,18 @@ public class DemineurController implements IController {
 
 	private Demineur model;
 
+	/**
+	 * Permet de lier le model au controller.
+	 * @param facade model à lier.
+	 */
 	@Override
 	public void setModel(Demineur facade) {
 		this.model = facade;
 	}
 
+	/**
+	 * Initialise les labels représentant la grille.
+	 */
 	@Override
 	public void initGrille() {
 		for (int i=0; i < Grille.DIMENSION; i++) {
@@ -94,6 +101,9 @@ public class DemineurController implements IController {
 		nbDrapeauLabel.setText(model.getNbDrapeaux());
 	}
 
+	/**
+	 * Permet de commencer une partie.
+	 */
 	@Override
 	public void commencerPartie() {
 		messageFin.setText("");
@@ -101,6 +111,9 @@ public class DemineurController implements IController {
 		boutonRelancer.setDisable(false);
 	}
 
+	/**
+	 * Permet de relancer une partie.
+	 */
 	@Override
 	public void relancer() {
 		for (int i=0; i < Grille.DIMENSION; i++) {
@@ -112,6 +125,11 @@ public class DemineurController implements IController {
 		commencerPartie();
 	}
 
+	/**
+	 * Permet de terminer une partie.
+	 * Et de personnaliser le message de fin.
+	 * @param gagne si le joueur a gagné.
+	 */
 	@Override
 	public void finirPartie(boolean gagne) {
 		boutonRelancer.setDisable(false);
@@ -133,6 +151,10 @@ public class DemineurController implements IController {
 		}
 	}
 
+	/**
+	 * Update la grille de jeu.
+	 * À executer avant chaque action.
+	 */
 	@Override
 	public void updateGrille() {
 		for (int i=0; i < Grille.DIMENSION; i++) {
