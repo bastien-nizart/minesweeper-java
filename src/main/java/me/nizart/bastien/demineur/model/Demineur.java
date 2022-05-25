@@ -27,9 +27,35 @@ public class Demineur {
 	 * Méthode permettant de démarrer une partie.
 	 */
 	public void startPartie() {
-		this.nbDrapeaux= 0;
+		this.nbDrapeaux = 0;
 		this.grille = new Grille();
-		controller.initGrille(grille);
+		controller.initGrille();
+	}
+
+	public boolean estVisible(int ligne, int colonne) {
+		return grille.getCase(ligne, colonne).estVisible();
+	}
+
+	public boolean possedeDrapeau(int ligne, int colonne) {
+		return grille.getCase(ligne, colonne).possedeDrapeau();
+	}
+
+	public boolean estUneMine(int ligne, int colonne) {
+		return grille.getCase(ligne, colonne).estUneMine();
+	}
+
+	/**
+	 * Renvoie la valeur affichable de la case.
+	 * @param ligne ligne de la case à récupérer.
+	 * @param colonne colonne de la case à récupérer.
+	 * @return valeur de la case.
+	 */
+	public String getValeurCase(int ligne, int colonne) {
+		if ((grille.getCase(ligne, colonne).estVisible()) || (grille.getCase(ligne, colonne).possedeDrapeau())) {
+			return grille.getCase(ligne, colonne).getValeur();
+		}
+
+		return "";
 	}
 
 	/**
@@ -88,10 +114,18 @@ public class Demineur {
 	}
 
 	/**
-	 * Ajoute un drapeau.
+	 * Modifier la valeur du drapeau d'une case.
 	 */
+	public void setDrapeau(int ligne, int colonne, boolean drapeau) {
+		this.grille.getCase(ligne, colonne).setDrapeau(drapeau);
+	}
+
 	public void ajouterDrapeau() {
 		this.nbDrapeaux++;
+	}
+
+	public void retirerDrapeau() {
+		this.nbDrapeaux--;
 	}
 
 	/**
@@ -108,13 +142,6 @@ public class Demineur {
 	 */
 	public int getNbDrapeaux() {
 		return Grille.NB_MINES - nbDrapeaux;
-	}
-
-	/**
-	 * Méthode retirant un drapeau.
-	 */
-	public void retirerDrapeau() {
-		this.nbDrapeaux--;
 	}
 
 	/**

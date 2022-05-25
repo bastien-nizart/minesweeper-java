@@ -33,7 +33,7 @@ public class DemineurController implements IController {
 		this.model = facade;
 	}
 
-	public void initGrille(Grille grille) {
+	public void initGrille() {
 		for (int i=0; i < Grille.DIMENSION; i++) {
 			for (int j=0; j < Grille.DIMENSION; j++) {
 				// Création
@@ -41,9 +41,7 @@ public class DemineurController implements IController {
 				cases[i][j].setText("");
 
 				// Attribution de la valeur visible
-				if (grille.getCase(i, j).estVisible()) {
-					cases[i][j].setText(grille.getCase(i, j).getValeur());
-				}
+				cases[i][j].setText(model.getValeurCase(i, j));
 
 				// Propriété graphique
 				cases[i][j].setAlignment(Pos.CENTER);
@@ -56,42 +54,34 @@ public class DemineurController implements IController {
 				cases[i][j].addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
 					// Placer drapeau
 					if (e.getButton() == MouseButton.SECONDARY) {
-						if (!grille.getCase(finalI, finalJ).estVisible()) {
-							if (grille.getCase(finalI, finalJ).possedeDrapeau()) {
-								grille.getCase(finalI, finalJ).setDrapeau(false);
-								model.retirerDrapeau();
-							}
+						if (!model.estVisible(finalI, finalJ) && model.possedeDrapeau(finalI, finalJ)) {
+							model.setDrapeau(finalI, finalJ, false);
+							model.retirerDrapeau();
+						}
 
-							else {
-								if (model.drapeauDispo()) {
-									grille.getCase(finalI, finalJ).setDrapeau(true);
-									model.ajouterDrapeau();
-								}
-							}
+						if (!model.estVisible(finalI, finalJ) && !model.possedeDrapeau(finalI, finalJ) && model.drapeauDispo()) {
+							model.setDrapeau(finalI, finalJ, true);
+							model.ajouterDrapeau();
 						}
 
 						nbDrapeauLabel.setText("Drapeau(x) : "+model.getNbDrapeaux());
-						updateGrille(grille);
+						updateGrille();
 					}
 
 					// Découvrir case
 					if (e.getButton() == MouseButton.PRIMARY) {
-						if (grille.getCase(finalI, finalJ).estUneMine()) {
-							finirPartie(grille, false);
+						if (model.estUneMine(finalI, finalJ)) {
+							finirPartie(false);
 						}
 
-						else {
-							if ((grille.getCase(finalI, finalJ).possedeDrapeau())) {
-								grille.getCase(finalI, finalJ).setDrapeau(false);
-								model.ajouterDrapeau();
-								nbDrapeauLabel.setText("Drapeau(x) : "+model.getNbDrapeaux());
-								System.out.println(grille.getCase(finalI, finalJ).possedeDrapeau());
-							}
-
-							model.revelerCases(finalI, finalJ);
+						if (model.possedeDrapeau(finalI, finalJ) && !model.estUneMine(finalI, finalJ)) {
+							model.setDrapeau(finalI, finalJ, false);
+							model.retirerDrapeau();
+							nbDrapeauLabel.setText("Drapeau(x) : "+model.getNbDrapeaux());
 						}
 
-						updateGrille(grille);
+						model.revelerCases(finalI, finalJ);
+						updateGrille();
 					}
 				});
 
@@ -121,10 +111,10 @@ public class DemineurController implements IController {
 	}
 
 	@Override
-	public void finirPartie(Grille grille, boolean gagne) {
+	public void finirPartie(boolean gagne) {
 		boutonRelancer.setDisable(false);
 		model.endPartie();
-		updateGrille(grille);
+		updateGrille();
 
 		if (gagne) {
 			messageFin.setText("Bravo !");
@@ -142,20 +132,15 @@ public class DemineurController implements IController {
 	}
 
 	@Override
-	public void updateGrille(Grille grille) {
+	public void updateGrille() {
 		for (int i=0; i < Grille.DIMENSION; i++) {
 			for (int j = 0; j < Grille.DIMENSION; j++) {
-				if ((grille.getCase(i, j).estVisible()) || (grille.getCase(i, j).possedeDrapeau())) {
-					cases[i][j].setText(grille.getCase(i, j).getValeur());
-				}
-				else {
-					cases[i][j].setText("");
-				}
+				cases[i][j].setText(model.getValeurCase(i, j));
 			}
 		}
 
 		if (model.partieGagnee()) {
-			finirPartie(grille, true);
+			finirPartie(true);
 		}
 	}
 
