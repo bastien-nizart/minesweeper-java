@@ -3,7 +3,7 @@ package me.nizart.bastien.demineur.model;
 /**
  * Cette classe représente un objet de type Demineur (facade du model)
  * Il s'agit en fait de la représentation d'une partie de jeu.
- * Partie propre à une grille et un nombre de drapeau.
+ * Partie propre à une grille et un nombre de drapeaux.
  * @author bastien
  * @version 1.0
  */
@@ -32,14 +32,32 @@ public class Demineur {
 		controller.initGrille();
 	}
 
+	/**
+	 * Vérifie si la case est visible.
+	 * @param ligne ligne de la case à vérifier.
+	 * @param colonne colonne de la case à vérifier.
+	 * @return si la case est visible.
+	 */
 	public boolean estVisible(int ligne, int colonne) {
 		return grille.getCase(ligne, colonne).estVisible();
 	}
 
+	/**
+	 * Vérifie si la case possède un drapeau.
+	 * @param ligne ligne de la case à vérifier.
+	 * @param colonne colonne de la case à vérifier.
+	 * @return si la case possède un drapeau.
+	 */
 	public boolean possedeDrapeau(int ligne, int colonne) {
 		return grille.getCase(ligne, colonne).possedeDrapeau();
 	}
 
+	/**
+	 * Vérifie si la case est une mine.
+	 * @param ligne ligne de la case à vérifier.
+	 * @param colonne colonne de la case à vérifier.
+	 * @return si la case est une mine.
+	 */
 	public boolean estUneMine(int ligne, int colonne) {
 		return grille.getCase(ligne, colonne).estUneMine();
 	}
@@ -114,16 +132,25 @@ public class Demineur {
 	}
 
 	/**
-	 * Modifier la valeur du drapeau d'une case.
+	 * Modifie la valeur du drapeau d'une case.
+	 * @param ligne ligne de la case à modifier.
+	 * @param colonne colonne de la case à modifier.
+	 * @param drapeau valeur à mettre dans la variable drapeau.
 	 */
 	public void setDrapeau(int ligne, int colonne, boolean drapeau) {
 		this.grille.getCase(ligne, colonne).setDrapeau(drapeau);
 	}
 
+	/**
+	 * Ajoute un au compteur de drapeau.
+	 */
 	public void ajouterDrapeau() {
 		this.nbDrapeaux++;
 	}
 
+	/**
+	 * Retire un au compteur de drapeau.
+	 */
 	public void retirerDrapeau() {
 		this.nbDrapeaux--;
 	}
@@ -140,8 +167,12 @@ public class Demineur {
 	 * Cette méthode retourne le nombre de drapeaux restant à placer.
 	 * @return nombre de drapeaux à placer.
 	 */
-	public int getNbDrapeaux() {
-		return Grille.NB_MINES - nbDrapeaux;
+	public String getNbDrapeaux() {
+		if (Grille.NB_MINES - nbDrapeaux < 2) {
+			return "Drapeau : "+(Grille.NB_MINES - nbDrapeaux);
+		}
+
+		return "Drapeaux : "+(Grille.NB_MINES - nbDrapeaux);
 	}
 
 	/**

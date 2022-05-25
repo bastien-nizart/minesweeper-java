@@ -29,10 +29,12 @@ public class DemineurController implements IController {
 
 	private Demineur model;
 
+	@Override
 	public void setModel(Demineur facade) {
 		this.model = facade;
 	}
 
+	@Override
 	public void initGrille() {
 		for (int i=0; i < Grille.DIMENSION; i++) {
 			for (int j=0; j < Grille.DIMENSION; j++) {
@@ -64,7 +66,7 @@ public class DemineurController implements IController {
 							model.ajouterDrapeau();
 						}
 
-						nbDrapeauLabel.setText("Drapeau(x) : "+model.getNbDrapeaux());
+						nbDrapeauLabel.setText(model.getNbDrapeaux());
 						updateGrille();
 					}
 
@@ -77,7 +79,7 @@ public class DemineurController implements IController {
 						if (model.possedeDrapeau(finalI, finalJ) && !model.estUneMine(finalI, finalJ)) {
 							model.setDrapeau(finalI, finalJ, false);
 							model.retirerDrapeau();
-							nbDrapeauLabel.setText("Drapeau(x) : "+model.getNbDrapeaux());
+							nbDrapeauLabel.setText(model.getNbDrapeaux());
 						}
 
 						model.revelerCases(finalI, finalJ);
@@ -89,7 +91,7 @@ public class DemineurController implements IController {
 			}
 		}
 		grilleJeu.setGridLinesVisible(true);
-		nbDrapeauLabel.setText("Drapeau(x) : "+model.getNbDrapeaux());
+		nbDrapeauLabel.setText(model.getNbDrapeaux());
 	}
 
 	@Override
