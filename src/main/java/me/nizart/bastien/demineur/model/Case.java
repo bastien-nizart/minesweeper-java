@@ -57,8 +57,13 @@ public class Case {
 	 * @param tuile case à comparer.
 	 * @return si les cases sont égales.
 	 */
-	public boolean equals(Case tuile) {
-		return (this.colonne == tuile.getColonne()) && (this.ligne == tuile.getLigne());
+	@Override
+	public boolean equals(Object tuile) {
+		if (tuile instanceof Case) {
+			return (this.colonne == ((Case) tuile).getColonne()) && (this.ligne == ((Case) tuile).getLigne());
+		}
+
+		return false;
 	}
 
 	/**
