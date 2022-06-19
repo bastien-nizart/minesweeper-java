@@ -33,36 +33,6 @@ public class Demineur {
 	}
 
 	/**
-	 * Vérifie si la case est visible.
-	 * @param ligne ligne de la case à vérifier.
-	 * @param colonne colonne de la case à vérifier.
-	 * @return si la case est visible.
-	 */
-	public boolean estVisible(int ligne, int colonne) {
-		return grille.getCase(ligne, colonne).estVisible();
-	}
-
-	/**
-	 * Vérifie si la case possède un drapeau.
-	 * @param ligne ligne de la case à vérifier.
-	 * @param colonne colonne de la case à vérifier.
-	 * @return si la case possède un drapeau.
-	 */
-	public boolean possedeDrapeau(int ligne, int colonne) {
-		return grille.getCase(ligne, colonne).possedeDrapeau();
-	}
-
-	/**
-	 * Vérifie si la case est une mine.
-	 * @param ligne ligne de la case à vérifier.
-	 * @param colonne colonne de la case à vérifier.
-	 * @return si la case est une mine.
-	 */
-	public boolean estUneMine(int ligne, int colonne) {
-		return grille.getCase(ligne, colonne).estUneMine();
-	}
-
-	/**
 	 * Renvoie la valeur affichable de la case.
 	 * @param ligne ligne de la case à récupérer.
 	 * @param colonne colonne de la case à récupérer.
@@ -74,6 +44,54 @@ public class Demineur {
 		}
 
 		return "";
+	}
+
+	public void poserDrapeau(int ligne, int colonne) {
+		if (grille.getCase(ligne, colonne) == null) {
+			return;
+		}
+
+		Case tuile = grille.getCase(ligne, colonne);
+
+		if (tuile.estVisible() && tuile.possedeDrapeau()) {
+			tuile.setDrapeau(false);
+			tuile.setVisible(false);
+			this.nbDrapeaux--;
+		}
+
+		else if (this.drapeauDispo()) {
+			tuile.setDrapeau(true);
+			tuile.setVisible(true);
+			this.nbDrapeaux++;
+		}
+	}
+
+	public void decouvrirCase(int ligne, int colonne) {
+		if (grille.getCase(ligne, colonne) == null) {
+			return;
+		}
+
+		Case tuile = grille.getCase(ligne, colonne);
+
+		if (tuile.estUneMine()) {
+			controller.finirPartie(false);
+		}
+
+		else if (tuile.possedeDrapeau()) {
+			tuile.setDrapeau(false);
+			tuile.setVisible(false);
+			this.nbDrapeaux--;
+		}
+
+		tuile.setVisible(true);
+
+		if (tuile.getValeur().equals("0")) {
+			for (Case voisine : grille.getCasesVoisines(ligne, colonne)) {
+				if (voisine.getValeur().equals("0")) {
+					voisine.setVisible(true);
+				}
+			}
+		}
 	}
 
 	/**
@@ -90,7 +108,7 @@ public class Demineur {
 	 * @return si la partie est gagnée.
 	 */
 	public boolean partieGagnee() {
-		if (nbDrapeaux < Grille.NB_MINES) {
+		if (nbDrapeaux < Grille.DIMENSION) {
 			return false;
 		}
 
@@ -110,50 +128,6 @@ public class Demineur {
 		}
 
 		return true;
-	}
-
-	/**
-	 * Cette méthode va révéler la case mise en paramètre.
-	 * Ainsi que les cases voisines si elles sont vides.
-	 * @param ligne ligne de la case à révéler.
-	 * @param colonne colonne de la case à révéler.
-	 */
-	public void revelerCases(int ligne, int colonne) {
-		Case caseActuelle = grille.getCase(ligne, colonne);
-		caseActuelle.setVisible(true);
-
-		if (caseActuelle.getValeur().equals("0")) {
-			for (Case voisine : grille.getCasesVoisines(ligne, colonne)) {
-				if (voisine.getValeur().equals("0")) {
-					voisine.setVisible(true);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Modifie la valeur du drapeau d'une case.
-	 * @param ligne ligne de la case à modifier.
-	 * @param colonne colonne de la case à modifier.
-	 * @param drapeau valeur à mettre dans la variable drapeau.
-	 */
-	public void setDrapeau(int ligne, int colonne, boolean drapeau) {
-		this.grille.getCase(ligne, colonne).setDrapeau(drapeau);
-		this.grille.getCase(ligne, colonne).setVisible(drapeau);
-	}
-
-	/**
-	 * Ajoute un au compteur de drapeau.
-	 */
-	public void ajouterDrapeau() {
-		this.nbDrapeaux++;
-	}
-
-	/**
-	 * Retire un au compteur de drapeau.
-	 */
-	public void retirerDrapeau() {
-		this.nbDrapeaux--;
 	}
 
 	/**

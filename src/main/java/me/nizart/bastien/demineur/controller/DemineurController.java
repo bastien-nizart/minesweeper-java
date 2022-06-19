@@ -79,44 +79,22 @@ public class DemineurController implements IController {
 				// Propriété graphique
 				cases[i][j].setAlignment(Pos.CENTER);
 				cases[i][j].setFont(Font.font(18));
-				cases[i][j].setPrefWidth(100);
-				cases[i][j].setPrefHeight(100);
+				cases[i][j].setPrefSize(100, 100);
 
 				int finalI = i;
 				int finalJ = j;
 				cases[i][j].addEventFilter(MouseEvent.MOUSE_CLICKED, e -> {
 					// Placer drapeau
 					if (e.getButton() == MouseButton.SECONDARY) {
-						if (model.estVisible(finalI, finalJ) && model.possedeDrapeau(finalI, finalJ)) {
-							model.setDrapeau(finalI, finalJ, false);
-							model.retirerDrapeau();
-							System.out.println("retirer drapeau");
-						}
-
-						else if (model.drapeauDispo()){
-							model.setDrapeau(finalI, finalJ, true);
-							model.ajouterDrapeau();
-							System.out.println("mettre drapeau");
-
-						}
-
+						model.poserDrapeau(finalI, finalJ);
 						nbDrapeauLabel.setText(model.getNbDrapeaux());
 						updateGrille();
 					}
 
 					// Découvrir case
 					if (e.getButton() == MouseButton.PRIMARY) {
-						if (model.estUneMine(finalI, finalJ)) {
-							finirPartie(false);
-						}
-
-						if (model.possedeDrapeau(finalI, finalJ) && !model.estUneMine(finalI, finalJ)) {
-							model.setDrapeau(finalI, finalJ, false);
-							model.retirerDrapeau();
-							nbDrapeauLabel.setText(model.getNbDrapeaux());
-						}
-
-						model.revelerCases(finalI, finalJ);
+						model.decouvrirCase(finalI, finalJ);
+						nbDrapeauLabel.setText(model.getNbDrapeaux());
 						updateGrille();
 					}
 				});
