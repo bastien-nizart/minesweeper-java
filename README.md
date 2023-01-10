@@ -24,7 +24,7 @@ Un clic sur une case, révéle son contenu. Et à partir de là, 2 possibilitée
 - la case contient une mine (marqué M dans ma version), vous avez perdu.
 - la case contient un chiffre (entre 0 et 8), qui correspont au nombre de case voisine à la notre contenant une mine.
 
-![nombre-mine](https://bastien.nizart.me/projets/demineur-java/nombre-mines.png)
+![nombre-mine](https://bastien.nizart.me/projects/minesweeper-java/nombre-mines.png)
 
 Dans cet exemple, la case entourrée en bleue contient le nombre 2, car elle possède deux voisines contenant une mine (encadrée en rouge).
 
@@ -44,7 +44,7 @@ Une fois compilé et lancé, une grille accompagné de quelques autres élément
 public static final int DIMENSION = 10;
 ```
 
-![plateau.png](https://bastien.nizart.me/projets/demineur-java/plateau.png)
+![plateau.png](https://bastien.nizart.me/projects/minesweeper-java/plateau.png)
 
 En bas de cette grille se trouve un bouton "relancer" qui permet de recommencer une partie depuis zéro à n'importe quel moment. 
 
