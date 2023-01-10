@@ -1,9 +1,9 @@
 # Démineur en JAVA
 
-![license](https://img.shields.io/badge/license-mit-green)
-![python-version](https://img.shields.io/badge/java-v17-success)
-![module](https://img.shields.io/badge/java-javafx-critical)
-![size](https://img.shields.io/badge/assets_size-40kB-blue)
+![license](https://img.shields.io/badge/License-MIT-green)
+![python-version](https://img.shields.io/badge/Language-Java_v17-success)
+![module](https://img.shields.io/badge/Librairies-JavaFX-critical)
+![size](https://img.shields.io/badge/Assets_Size-40kB-blue)
 
 Ce programme java permet d'exécuter un jeu du Démineur fait en JAVA avec la bibliothèque graphique JavaFX.
 Le programme est très léger, aucune image n'est utilisée *(un drapeau est représenté par la lettre D, tandis qu'une mine sera représentée par la lettre M)*.
